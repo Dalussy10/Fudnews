@@ -1,0 +1,427 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+a{
+    list-style: none;
+    text-decoration: none;
+    color: gray;
+    cursor: pointer;
+}
+li{
+    text-decoration: none;
+    list-style: none;
+}
+
+.search{
+    all:unset; padding: 0%; margin: 0%; outline: none;
+}
+
+.search-icon{
+    padding: 0%; margin: 0%; outline: none;
+}
+
+body{
+    font-family: "PT Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text{color: #fff !important;}
+
+h1{ color: #111827;}
+h2{ color: #6B7280;}
+h3{color:#4B5563;}
+p{ color: E5E7EB;}
+
+
+.clear::after{
+    /* news-wrapper */
+    content: '';
+    display: block;
+    clear: both;
+}
+
+    /* Hamburger Icon (visible only on mobile) */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+.hamburger span {
+      width: 25px;
+      height: 2px;
+      background: #333;
+      transition: all 0.3s;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      padding: 20px 40px;
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .mobile-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 15px 0;
+      text-decoration: none;
+      color: #333;
+      text-transform: uppercase;
+      font-size: 16px;
+      border-bottom: 1px solid #eee;
+    }
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+
+/* news */
+
+
+.news-wrapper{
+    display: flex;
+    padding-block-end: 20px;
+}
+
+.news-wrapper .left-side{
+    flex: 2;
+} 
+
+.news-wrapper .middle-side{
+    flex:6;
+} 
+
+.news-wrapper .right-side{
+    flex: 3;
+} 
+
+
+/* news wrapper */
+.news-wrapper .logo{
+    padding: 10px;
+}
+
+.news-wrapper .logo .logo-title{
+    font-size: 2rem;
+    justify-content: space-between;
+    text-align: left;
+    padding: 15px 0;
+    letter-spacing: 1px;
+    font-family: "Sekuya", system-ui;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.news-wrapper .logo .logo-text{
+font-size: 1rem;
+justify-content: space-between;
+text-align: left;
+padding: 5px;
+text-transform: uppercase;
+}
+
+.news-wrapper .sidebar{
+    padding: 10px;
+}
+
+.news-wrapper .sidebar ul li {
+    padding: 10px 0;
+    font-size: 1.4rem;
+    font-weight: 100;
+}
+
+.news-wrapper .sidebar ul .li{
+    border: 1px solid #333;
+    padding:0  0 0% 5px;
+    width: 89%;
+    border-radius: 8px;
+}
+
+.news-wrapper .sidebar ul li .search{
+    border: none;
+    width: 60%;
+    font-size: 1.2rem;
+    display:inline-block;
+}
+
+.news-wrapper .middle-side.more{ padding: 0px 20px;}
+
+.news-wrapper .middle-content {
+    padding: 10px;
+}
+.news-wrapper .middle-content .title{
+    font-size: 2rem;
+    justify-content: space-between;
+    text-transform: capitalize;
+    text-align: left;
+    padding-block-end: 10px;
+}
+
+
+.news-wrapper .middle-side .latest {
+    padding: 10px;
+}
+
+.news-wrapper .middle-side .latest .latest-img {
+    width: 100%;
+    height: 450px;
+}
+
+.news-wrapper .middle-side .latest h4{
+    padding: 10px 0;
+    font-size: 1.2rem;
+    color: black; 
+}
+
+/* right-side */
+
+.summery{
+    padding: 15px;
+}
+
+.summery a{
+    text-transform:uppercase ;
+    font-size: .7rem !important;
+}
+
+.summery .summery-text{
+    padding-block-end: 10px;
+}
+
+.summery p{
+    padding-bottom: 5px;
+}
+.hr{
+    margin-block-end: 20px;
+}
+.author{
+    padding: 9px 0;
+}
+
+#footer {
+  position: relative;
+  height: 60vh;                  /* Full viewport height */
+  min-height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.footer-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* Makes image act like a wallpaper */
+  z-index: -2;
+}
+
+.footer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);   /* Dark overlay - adjust opacity here */
+  z-index: -1;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 20px;
+}
+
+.footer-content h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.footer-content p {
+  font-size: 18px;
+  letter-spacing: 3px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.text-input{
+    padding: .7rem 1rem;
+    width:30%;
+    line-height: 1;
+    font-size: 1.2rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-weight: lighter;
+}
+
+.btn-subscribe{
+    padding: .7rem 1rem;
+    line-height: 1;
+    font-size: 1.2rem;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    z-index: 99999999;
+}
+
+.btn-subscribe:hover{
+    background: #fff;
+    color: #333;
+}
+
+.bottom-footer{
+    margin-block-start: 40px;
+    margin-bottom: 0;
+    height: 50px;
+    background: #333;
+    display: flex;
+    justify-content: space-between;
+    color: #fff ;
+    padding: 10px;
+    position: static;
+}
+
+
+
+.bottom-footer a{
+    color: #fff !important;
+    padding: 15px 10px;
+    cursor: pointer;
+}
+
+.bottom-footer .contact{
+    padding-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+ /* Responsive Breakpoint*/
+@media (max-width: 768px) {
+
+    .mobile-menu a {
+      
+      padding: 10px 0;
+      
+      font-size: 13px;
+      
+    }
+    .bottom-footer a{
+    padding: 7px 0;
+
+}
+
+.news-wrapper .logo{
+    padding: 0;
+}
+
+.news-wrapper .logo .logo-text{
+padding: 5px 0;
+}
+
+.text-input{
+    padding: .7rem 1rem;
+    width:30%;
+    line-height: .5;
+    font-size: .7rem;
+;
+}
+
+.btn-subscribe{
+    padding: .7rem 1rem;
+    line-height: .5;
+    font-size: .7rem;
+    width: 60%;
+
+}
+
+
+.bottom-footer{
+    padding: 0;
+}
+
+.bottom-footer .contacts{
+    padding: 5px 0;
+}
+.bottom-footer .contact{
+    padding: 10px 0;
+}
+
+#footer{
+    height: 465px;
+}
+
+.bottom-footer{
+   height: 100px;
+    display: list-item;
+    
+}
+ }
+
+ /* Responsive Breakpoint*/
+@media (max-width: 1024px) { 
+  .nav-links {
+    display: none;
+}
+
+.hamburger {
+    display: flex;
+    float: right;
+    padding-top:20px;
+
+}
+.navbar {
+    padding: 0 20px;
+} 
+
+.news-wrapper{
+    display: list-item;
+}
+.news-wrapper .middle-side{
+    width: 100%;
+} 
+
+.news-wrapper .right-side{
+    width: 100%;
+} 
+.news-wrapper .sidebar{
+    width: 100%;
+}
+.news-wrapper .middle-side .latest .latest-img {
+padding: 0 10px;
+}
+
+}
+
+
