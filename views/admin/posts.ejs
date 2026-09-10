@@ -1,0 +1,324 @@
+<%- include('../partials/header'); -%>
+
+    <div class="min-h-screen bg-gray-50">
+
+        <div class="max-w-7xl mx-auto px-6 py-8">
+
+            <!-- PAGE HEADER -->
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+
+                <div>
+
+                    <h1 class="text-3xl font-bold text-gray-900">
+                        Manage Posts
+                    </h1>
+
+                    <p class="text-gray-500 mt-1">
+                        Manage, search and update your news articles.
+                    </p>
+
+                </div>
+
+                <a href="/compose" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium">
+                    + Create Post
+                </a>
+
+            </div>
+
+
+            <!-- SEARCH & FILTER -->
+            <form action="/admin/posts" method="GET"
+                class="flex flex-wrap gap-3 mb-6 bg-white p-4 rounded-xl shadow-sm border">
+
+                <!-- SEARCH -->
+                <input type="text" name="search" value="<%= search || '' %>" placeholder="Search posts..."
+                    class="border rounded-lg px-4 py-2.5 w-full md:w-96 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+
+                <!-- CATEGORY -->
+                <select name="category"
+                    class="border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                    <% categories.forEach(categoryItem=> { %>
+
+                        <option value="<%= categoryItem.id %>" <%=String(categoryItem.id)===String(category)
+                            ? "selected" : "" %>
+                            >
+                            <%= categoryItem.name %>
+                        </option>
+
+                        <% }) %>
+
+                </select>
+
+
+                <!-- SEARCH BUTTON -->
+                <button type="submit" class="bg-gray-800 hover:bg-black text-white px-5 py-2.5 rounded-lg">
+                    Search
+                </button>
+
+
+                <!-- CLEAR -->
+                <% if (search || category) { %>
+
+                    <a href="/admin/posts" class="bg-gray-200 hover:bg-gray-300 px-5 py-2.5 rounded-lg">
+                        Clear
+                    </a>
+
+                    <% } %>
+
+            </form>
+
+
+            <!-- RESULTS INFO -->
+            <div class="flex justify-between items-center mb-4">
+
+                <p class="text-gray-600">
+
+                    Showing
+
+                    <strong>
+                        <%= posts.length %>
+                    </strong>
+
+                    of
+
+                    <strong>
+                        <%= totalPosts %>
+                    </strong>
+
+                    posts
+
+                </p>
+
+            </div>
+
+
+            <!-- POSTS -->
+            <% if (posts && posts.length> 0) { %>
+
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border">
+
+                    <table class="w-full border-collapse">
+
+                        <thead>
+
+                            <tr class="border-b bg-gray-50">
+
+                                <th class="text-left p-4">
+                                    Title
+                                </th>
+
+                                <th class="text-left p-4">
+                                    Category
+                                </th>
+
+                                <th class="text-left p-4">
+                                    Views
+                                </th>
+
+                                <th class="text-left p-4">
+                                    Status
+                                </th>
+
+                                <th class="text-left p-4">
+                                    Date
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <% posts.forEach(post=> { %>
+
+                                <tr class="border-b hover:bg-gray-50">
+
+
+                                    <!-- TITLE -->
+
+                                    <td class="p-4">
+
+                                        <div class="font-semibold text-gray-800">
+                                            <%= post.title %>
+                                        </div>
+
+                                        <a href="/post/<%= post.slug %>" target="_blank"
+                                            class="text-sm text-blue-600 hover:underline">
+                                            View article →
+                                        </a>
+
+                                    </td>
+
+
+                                    <!-- CATEGORY -->
+
+                                    <td class="p-4">
+
+                                        <span class="text-gray-700">
+                                            <%= post.category_name || "General" %>
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- VIEWS -->
+
+                                    <td class="p-4">
+
+                                        <span class="font-medium">
+                                            <%= post.views || 0 %>
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td class="p-4">
+
+                                        <div class="flex flex-col gap-2">
+
+
+                                            <!-- FEATURED -->
+
+                                            <form action="/admin/posts/<%= post.id %>/featured" method="POST">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button type="submit" class="px-3 py-2 rounded-lg text-sm font-medium w-full
+                                                <%= post.featured
+                                                    ? 'bg-yellow-500 text-white hover:bg-yellow-600'
+                                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                                %>">
+
+                                                    <%= post.featured ? "★ Featured" : "☆ Make Featured" %>
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- BREAKING -->
+
+                                            <form action="/admin/posts/<%= post.id %>/breaking" method="POST">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button type="submit" class="px-3 py-2 rounded-lg text-sm font-medium w-full
+                                                <%= post.breaking
+                                                    ? 'bg-red-600 text-white hover:bg-red-700'
+                                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                                %>">
+
+                                                    <%= post.breaking ? "⚡ Breaking" : "⚡ Make Breaking" %>
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- DATE -->
+
+                                    <td class="p-4 whitespace-nowrap text-gray-600">
+
+                                        <%= post.created_at ? new Date(post.created_at).toDateString() : "" %>
+
+                                    </td>
+
+
+                                </tr>
+
+                                <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <% } else { %>
+
+
+                    <!-- NO POSTS -->
+
+                    <div class="bg-white rounded-xl shadow-sm border p-12 text-center">
+
+                        <h2 class="text-xl font-semibold text-gray-700">
+                            No posts found
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Try a different search or category.
+                        </p>
+
+                    </div>
+
+
+                    <% } %>
+
+
+                        <!-- PAGINATION -->
+
+                        <% if (totalPages> 1) { %>
+
+                            <div class="flex justify-center items-center gap-2 mt-8">
+
+
+                                <!-- PREVIOUS -->
+
+                                <% if (currentPage> 1) { %>
+
+                                    <a href="/admin/posts?page=<%= currentPage - 1 %>&search=<%= encodeURIComponent(search || '') %>&category=<%= category || '' %>"
+                                        class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                                        Previous
+                                    </a>
+
+                                    <% } %>
+
+
+                                        <!-- PAGE NUMBERS -->
+
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+
+                                            <a href="/admin/posts?page=<%= i %>&search=<%= encodeURIComponent(search || '') %>&category=<%= category || '' %>"
+                                                class="px-4 py-2 border rounded-lg
+                        <%= currentPage === i
+                            ? 'bg-blue-600 text-white'
+                            : 'hover:bg-gray-100'
+                        %>">
+                                                <%= i %>
+                                            </a>
+
+                                            <% } %>
+
+
+                                                <!-- NEXT -->
+
+                                                <% if (currentPage < totalPages) { %>
+
+                                                    <a href="/admin/posts?page=<%= currentPage + 1 %>&search=<%= encodeURIComponent(search || '') %>&category=<%= category || '' %>"
+                                                        class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                                                        Next
+                                                    </a>
+
+                                                    <% } %>
+
+                            </div>
+
+                            <% } %>
+
+
+        </div>
+
+    </div>
+
+
+    <%- include('../partials/footer'); -%>

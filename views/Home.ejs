@@ -1,0 +1,1003 @@
+<%- include('partials/header'); -%>
+
+
+    <!-- =========================================================
+     HOME PAGE
+========================================================= -->
+
+    <main class="bg-slate-50">
+
+        <!-- =====================================================
+     BREAKING NEWS
+====================================================== -->
+
+        <section class="bg-red-600 text-white overflow-hidden">
+
+            <div class="max-w-7xl mx-auto flex items-center min-h-[48px]">
+
+                <!-- Label -->
+
+                <div class="flex items-center gap-2 h-12 px-4 sm:px-6 bg-red-700 font-black text-[10px] sm:text-xs tracking-wider whitespace-nowrap flex-shrink-0 relative z-10
+            ">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                    BREAKING NEWS
+
+                </div>
+
+
+                <!-- TICKER -->
+
+                <div class="flex-1 overflow-hidden">
+
+                    <% if (breaking && breaking.length> 0) { %>
+
+                        <div class="
+                        breaking-ticker
+                        flex
+                        whitespace-nowrap
+                    ">
+
+                            <!-- FIRST SET -->
+
+                            <div class="flex items-center shrink-0">
+
+                                <% breaking.forEach(post=> { %>
+
+                                    <a href="/post/<%= post.slug %>" class="
+                                    inline-flex
+                                    items-center
+                                    text-sm
+                                    font-medium
+                                    text-white
+                                    hover:text-red-100
+                                    transition
+                                    mx-8
+                                ">
+
+                                        <span class="mr-3 text-red-200">
+                                            ●
+                                        </span>
+
+                                        <%= post.title %>
+
+                                    </a>
+
+                                    <% }) %>
+
+                            </div>
+
+
+                            <!-- DUPLICATE SET
+                         This creates the seamless loop -->
+
+                            <div class="flex items-center shrink-0" aria-hidden="true">
+
+                                <% breaking.forEach(post=> { %>
+
+                                    <a href="/post/<%= post.slug %>" tabindex="-1" class="
+                                    inline-flex
+                                    items-center
+                                    text-sm
+                                    font-medium
+                                    text-white
+                                    hover:text-red-100
+                                    transition
+                                    mx-8
+                                ">
+
+                                        <span class="mr-3 text-red-200">
+                                            ●
+                                        </span>
+
+                                        <%= post.title %>
+
+                                    </a>
+
+                                    <% }) %>
+
+                            </div>
+
+                        </div>
+
+                        <% } else { %>
+
+                            <span class="px-6 text-sm">
+
+                                No breaking news at the moment.
+
+                            </span>
+
+                            <% } %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+         CONTENT CONTAINER
+    ====================================================== -->
+
+        <div class="
+            max-w-7xl
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+            py-8
+            sm:py-10
+            lg:py-12
+        ">
+
+
+            <!-- =================================================
+             FEATURED NEWS
+        ================================================== -->
+
+            <section class="mb-12">
+
+
+                <!-- Heading -->
+
+                <div class="
+                    flex
+                    items-center
+                    justify-between
+                    gap-4
+                    mb-6
+                ">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="
+                            w-1
+                            h-8
+                            bg-blue-600
+                            rounded-full
+                        "></div>
+
+                        <h2 class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            text-gray-900
+                        ">
+                            Featured News
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <% if (featured && featured.length> 0) { %>
+
+
+                    <div class="
+                        grid
+                        grid-cols-1
+                        md:grid-cols-2
+                        lg:grid-cols-3
+                        gap-5
+                    ">
+
+
+                        <% featured.slice(0, 5).forEach((post, index)=> { %>
+
+
+                            <article class="
+                                group
+                                relative
+                                overflow-hidden
+                                rounded-2xl
+                                bg-gray-900
+                                min-h-[300px]
+                                sm:min-h-[340px]
+                                <%= index === 0
+                                    ? 'md:col-span-2 md:min-h-[400px]'
+                                    : ''
+                                %>
+                            ">
+
+
+                                <!-- Image -->
+
+                                <img src="<%= post.image || '/images/default-news.jpg' %>" alt="<%= post.title %>"
+                                    loading="lazy" class="
+                                    absolute
+                                    inset-0
+                                    w-full
+                                    h-full
+                                    object-cover
+                                    transition
+                                    duration-700
+                                    group-hover:scale-105
+                                ">
+
+
+                                <!-- Overlay -->
+
+                                <div class="
+                                    absolute
+                                    inset-0
+                                    bg-gradient-to-t
+                                    from-black/90
+                                    via-black/40
+                                    to-transparent
+                                "></div>
+
+
+                                <!-- Content -->
+
+                                <div class="
+                                    absolute
+                                    inset-x-0
+                                    bottom-0
+                                    p-5
+                                    sm:p-6
+                                ">
+
+
+                                    <!-- Category -->
+
+                                    <span class="
+                                        inline-block
+                                        px-2.5
+                                        py-1
+                                        mb-3
+                                        rounded-md
+                                        bg-blue-600
+                                        text-white
+                                        text-[10px]
+                                        sm:text-xs
+                                        font-bold
+                                        uppercase
+                                    ">
+
+                                        <%= post.category_name || "General" %>
+
+                                    </span>
+
+
+                                    <!-- Title -->
+
+                                    <h3 class="
+                                        text-xl
+                                        sm:text-2xl
+                                        <%= index === 0
+                                            ? 'lg:text-3xl'
+                                            : ''
+                                        %>
+                                        font-black
+                                        leading-tight
+                                        text-white
+                                    ">
+
+                                        <a href="/post/<%= post.slug %>" class="
+                                            hover:text-blue-200
+                                            transition
+                                        ">
+
+                                            <%= post.title %>
+
+                                        </a>
+
+                                    </h3>
+
+
+                                    <!-- Meta -->
+
+                                    <div class="
+                                        flex
+                                        flex-wrap
+                                        items-center
+                                        gap-3
+                                        mt-4
+                                        text-xs
+                                        text-gray-300
+                                    ">
+
+                                        <span>
+
+                                            <i class="
+                                                fa-regular
+                                                fa-calendar
+                                                mr-1
+                                            "></i>
+
+                                            <%= new Date(post.created_at).toDateString() %>
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <i class="
+                                                fa-regular
+                                                fa-eye
+                                                mr-1
+                                            "></i>
+
+                                            <%= post.views || 0 %>
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+
+                            <% }) %>
+
+                    </div>
+
+
+                    <% } else { %>
+
+
+                        <div class="
+                        rounded-2xl
+                        bg-white
+                        border
+                        border-gray-200
+                        p-10
+                        text-center
+                        text-gray-500
+                    ">
+
+                            <i class="
+                            fa-regular
+                            fa-newspaper
+                            text-4xl
+                            mb-3
+                            text-gray-300
+                        "></i>
+
+                            <p>
+                                No featured news at the moment.
+                            </p>
+
+                        </div>
+
+
+                        <% } %>
+
+            </section>
+
+
+
+            <!-- =================================================
+             LATEST NEWS + SIDEBAR
+        ================================================== -->
+
+            <div class="
+                grid
+                grid-cols-1
+                lg:grid-cols-3
+                gap-8
+                lg:gap-10
+            ">
+
+
+                <!-- =================================================
+                 MAIN POSTS
+            ================================================== -->
+
+                <section class="lg:col-span-2">
+
+
+                    <!-- Heading -->
+
+                    <div class="
+                        flex
+                        items-center
+                        justify-between
+                        mb-6
+                    ">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="
+                                w-1
+                                h-8
+                                bg-blue-600
+                                rounded-full
+                            "></div>
+
+                            <h2 class="
+                                text-2xl
+                                sm:text-3xl
+                                font-black
+                            ">
+                                Latest News
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <% if (posts && posts.length> 0) { %>
+
+
+                        <div class="space-y-8">
+
+
+                            <% posts.forEach(function(post) { %>
+
+
+                                <article class="
+                                    group
+                                    bg-white
+                                    rounded-2xl
+                                    border
+                                    border-gray-200
+                                    overflow-hidden
+                                    shadow-sm
+                                    hover:shadow-xl
+                                    transition
+                                    duration-300
+                                ">
+
+
+                                    <div class="
+                                        grid
+                                        grid-cols-1
+                                        md:grid-cols-5
+                                    ">
+
+
+                                        <!-- IMAGE -->
+
+                                        <a href="/post/<%= post.slug %>" class="
+                                            md:col-span-2
+                                            h-56
+                                            md:h-full
+                                            min-h-[230px]
+                                            overflow-hidden
+                                        ">
+
+                                            <img src="<%= post.image || '/images/default-news.jpg' %>"
+                                                alt="<%= post.title %>" loading="lazy" class="
+                                                w-full
+                                                h-full
+                                                object-cover
+                                                transition
+                                                duration-500
+                                                group-hover:scale-105
+                                            ">
+
+                                        </a>
+
+
+
+                                        <!-- CONTENT -->
+
+                                        <div class="
+                                            md:col-span-3
+                                            p-5
+                                            sm:p-6
+                                            flex
+                                            flex-col
+                                            justify-center
+                                        ">
+
+
+                                            <!-- Category -->
+
+                                            <span class="
+                                                text-xs
+                                                font-bold
+                                                uppercase
+                                                tracking-wider
+                                                text-blue-600
+                                                mb-2
+                                            ">
+
+                                                <%= post.category_name || "General" %>
+
+                                            </span>
+
+
+                                            <!-- Title -->
+
+                                            <h2 class="
+                                                text-xl
+                                                sm:text-2xl
+                                                font-black
+                                                leading-tight
+                                                text-gray-900
+                                            ">
+
+                                                <a href="/post/<%= post.slug %>" class="
+                                                    hover:text-blue-600
+                                                    transition
+                                                ">
+
+                                                    <%= post.title %>
+
+                                                </a>
+
+                                            </h2>
+
+
+
+                                            <!-- META -->
+
+                                            <div class="
+                                                flex
+                                                flex-wrap
+                                                items-center
+                                                gap-x-4
+                                                gap-y-2
+                                                mt-4
+                                                text-xs
+                                                text-gray-500
+                                            ">
+
+                                                <span>
+
+                                                    <i class="
+                                                        fa-regular
+                                                        fa-user
+                                                        mr-1
+                                                    "></i>
+
+                                                    <%= post.author || "FundNews" %>
+
+                                                </span>
+
+
+                                                <span>
+
+                                                    <i class="
+                                                        fa-regular
+                                                        fa-calendar
+                                                        mr-1
+                                                    "></i>
+
+                                                    <%= new Date(post.created_at).toDateString() %>
+
+                                                </span>
+
+
+                                                <span>
+
+                                                    <i class="
+                                                        fa-regular
+                                                        fa-eye
+                                                        mr-1
+                                                    "></i>
+
+                                                    <%= post.views || 0 %> Views
+
+                                                </span>
+
+                                            </div>
+
+
+
+                                            <!-- PREVIEW -->
+
+                                            <p class="
+                                                mt-4
+                                                text-sm
+                                                sm:text-base
+                                                leading-7
+                                                text-gray-600
+                                                line-clamp-3
+                                            ">
+
+                                                <%= post.content ? post.content .replace(/<[^>]+>/g, "")
+                                                    .trim()
+                                                    .substring(0, 180)
+                                                    : "Read the latest news and updates from FundNews."
+                                                    %>
+
+                                            </p>
+
+
+
+                                            <!-- READ MORE -->
+
+                                            <a href="/post/<%= post.slug %>" class="
+                                                inline-flex
+                                                items-center
+                                                gap-2
+                                                mt-4
+                                                w-fit
+                                                text-sm
+                                                font-bold
+                                                text-blue-600
+                                                hover:text-blue-800
+                                                transition
+                                            ">
+
+                                                Read Full Article
+
+                                                <i class="
+                                                    fa-solid
+                                                    fa-arrow-right
+                                                    text-xs
+                                                "></i>
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </article>
+
+
+                                <% }) %>
+
+
+                        </div>
+
+
+                        <% } else { %>
+
+
+                            <div class="
+                            rounded-2xl
+                            bg-white
+                            border
+                            border-gray-200
+                            p-10
+                            text-center
+                            text-gray-500
+                        ">
+
+                                <i class="
+                                fa-regular
+                                fa-newspaper
+                                text-4xl
+                                mb-3
+                                text-gray-300
+                            "></i>
+
+                                <p>
+                                    No news articles available at the moment.
+                                </p>
+
+                            </div>
+
+
+                            <% } %>
+
+                </section>
+
+
+
+                <!-- =================================================
+                 SIDEBAR
+            ================================================== -->
+
+                <aside class="lg:col-span-1">
+
+
+                    <div class="
+                        bg-white
+                        rounded-2xl
+                        border
+                        border-gray-200
+                        p-5
+                        sm:p-6
+                        shadow-sm
+                        lg:sticky
+                        lg:top-28
+                    ">
+
+
+                        <!-- Heading -->
+
+                        <div class="
+                            flex
+                            items-center
+                            gap-3
+                            mb-6
+                        ">
+
+                            <div class="
+                                w-1
+                                h-7
+                                bg-blue-600
+                                rounded-full
+                            "></div>
+
+                            <h3 class="
+                                text-xl
+                                font-black
+                            ">
+                                Latest Stories
+                            </h3>
+
+                        </div>
+
+
+
+                        <% if (sidePosts && sidePosts.length> 0) { %>
+
+
+                            <div class="divide-y divide-gray-100">
+
+
+                                <% sidePosts.forEach(function(post) { %>
+
+
+                                    <article class="py-4 first:pt-0 last:pb-0">
+
+
+                                        <div class="
+                                            flex
+                                            gap-4
+                                        ">
+
+
+                                            <!-- IMAGE -->
+
+                                            <a href="/post/<%= post.slug %>" class="
+                                                w-24
+                                                h-20
+                                                sm:w-28
+                                                sm:h-24
+                                                flex-shrink-0
+                                                rounded-xl
+                                                overflow-hidden
+                                                bg-gray-100
+                                            ">
+
+                                                <img src="<%= post.image || '/images/default-news.jpg' %>"
+                                                    alt="<%= post.title %>" loading="lazy" class="
+                                                    w-full
+                                                    h-full
+                                                    object-cover
+                                                    transition
+                                                    duration-500
+                                                    hover:scale-105
+                                                ">
+
+                                            </a>
+
+
+
+                                            <!-- CONTENT -->
+
+                                            <div class="min-w-0">
+
+                                                <span class="
+                                                    text-[10px]
+                                                    font-bold
+                                                    uppercase
+                                                    tracking-wider
+                                                    text-blue-600
+                                                ">
+
+                                                    <%= post.category_name || "General" %>
+
+                                                </span>
+
+
+                                                <h4 class="
+                                                    mt-1
+                                                    text-sm
+                                                    font-bold
+                                                    leading-5
+                                                    text-gray-900
+                                                    line-clamp-3
+                                                ">
+
+                                                    <a href="/post/<%= post.slug %>" class="
+                                                        hover:text-blue-600
+                                                        transition
+                                                    ">
+
+                                                        <%= post.title %>
+
+                                                    </a>
+
+                                                </h4>
+
+
+                                                <div class="
+                                                    mt-2
+                                                    text-[10px]
+                                                    text-gray-400
+                                                ">
+
+                                                    <i class="
+                                                        fa-regular
+                                                        fa-calendar
+                                                        mr-1
+                                                    "></i>
+
+                                                    <%= new Date(post.created_at).toDateString() %>
+
+
+                                                        <span class="mx-1">
+                                                            ·
+                                                        </span>
+
+
+                                                        <i class="
+                                                        fa-regular
+                                                        fa-eye
+                                                        mr-1
+                                                    "></i>
+
+                                                        <%= post.views || 0 %>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </article>
+
+
+                                    <% }) %>
+
+
+                            </div>
+
+
+                            <% } else { %>
+
+
+                                <p class="text-sm text-gray-500">
+
+                                    No latest stories available.
+
+                                </p>
+
+
+                                <% } %>
+
+                    </div>
+
+                </aside>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+             PAGINATION
+        ================================================== -->
+
+            <% if (totalPages> 1) { %>
+
+
+                <nav class="
+                    flex
+                    items-center
+                    justify-center
+                    flex-wrap
+                    gap-2
+                    mt-10
+                ">
+
+
+                    <!-- PREVIOUS -->
+
+                    <% if (currentPage> 1) { %>
+
+                        <a href="/?page=<%= currentPage - 1 %>" class="
+                            inline-flex
+                            items-center
+                            gap-2
+                            px-4
+                            py-2.5
+                            rounded-lg
+                            border
+                            border-gray-200
+                            bg-white
+                            text-sm
+                            font-semibold
+                            text-gray-700
+                            hover:bg-gray-100
+                            transition
+                        ">
+
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+
+                            <span class="hidden sm:inline">
+                                Previous
+                            </span>
+
+                        </a>
+
+                        <% } %>
+
+
+
+                            <!-- PAGE NUMBERS -->
+
+                            <% for ( let i=1; i <=totalPages; i++ ) { %>
+
+
+                                <a href="/?page=<%= i %>" class="
+                            min-w-10
+                            h-10
+                            flex
+                            items-center
+                            justify-center
+                            px-3
+                            rounded-lg
+                            border
+                            text-sm
+                            font-semibold
+                            transition
+
+                            <%= currentPage === i
+                                ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                                : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100'
+                            %>
+                        ">
+
+                                    <%= i %>
+
+                                </a>
+
+
+                                <% } %>
+
+
+
+                                    <!-- NEXT -->
+
+                                    <% if (currentPage < totalPages) { %>
+
+
+                                        <a href="/?page=<%= currentPage + 1 %>" class="
+                            inline-flex
+                            items-center
+                            gap-2
+                            px-4
+                            py-2.5
+                            rounded-lg
+                            border
+                            border-gray-200
+                            bg-white
+                            text-sm
+                            font-semibold
+                            text-gray-700
+                            hover:bg-gray-100
+                            transition
+                        ">
+
+                                            <span class="hidden sm:inline">
+                                                Next
+                                            </span>
+
+                                            <i class="fa-solid fa-chevron-right text-xs"></i>
+
+                                        </a>
+
+
+                                        <% } %>
+
+
+                </nav>
+
+
+                <% } %>
+
+
+        </div>
+
+    </main>
+
+
+    <%- include('partials/footer'); -%>

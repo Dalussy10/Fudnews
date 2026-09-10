@@ -1,0 +1,217 @@
+
+<%- include("partials/header") %>
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- Category Header -->
+    <div class="border-b border-gray-200 pb-6 mb-8">
+
+        <h1 class="text-4xl font-bold text-gray-800">
+            <%= category %>
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+            <%= postCount %>
+            article<%= postCount === 1 ? "" : "s" %>
+        </p>
+
+    </div>
+
+
+    <!-- Category Articles -->
+
+    <% if (posts && posts.length > 0) { %>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <% posts.forEach(post => { %>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+
+                    <!-- Image -->
+
+                    <% if (post.image) { %>
+
+                        <a href="/post/<%= post.slug %>">
+
+                            <img
+                                src="<%= post.image %>"
+                                alt="<%= post.title %>"
+                                loading="lazy"
+                                class="w-full h-56 object-cover"
+                            >
+
+                        </a>
+
+                    <% } %>
+
+
+                    <!-- Content -->
+
+                    <div class="p-5">
+
+                        <!-- Category -->
+
+                        <p class="text-sm text-blue-600 font-semibold mb-2">
+                            <%= post.category_name %>
+                        </p>
+
+
+                        <!-- Title -->
+
+                        <h2 class="text-xl font-bold text-gray-800 leading-snug">
+
+                            <a
+                                href="/post/<%= post.slug %>"
+                                class="hover:text-blue-600 transition"
+                            >
+
+                                <%= post.title %>
+
+                            </a>
+
+                        </h2>
+
+
+                        <!-- Meta -->
+
+                        <div class="flex justify-between items-center text-sm text-gray-500 mt-4">
+
+                            <span>
+                                <%= post.author || "FUDNEWS" %>
+                            </span>
+
+                            <span>
+                                <%= post.created_at
+                                    ? new Date(post.created_at).toDateString()
+                                    : "" %>
+                            </span>
+
+                        </div>
+
+
+                        <!-- Excerpt -->
+
+                        <p class="text-gray-600 mt-4 leading-7">
+
+                            <%= post.content
+                                ? post.content
+                                    .replace(/<[^>]*>/g, "")
+                                    .substring(0, 150) + "..."
+                                : "" %>
+
+                        </p>
+
+
+                        <!-- Read More -->
+
+                        <a
+                            href="/post/<%= post.slug %>"
+                            class="inline-block mt-4 text-blue-600 font-semibold hover:underline"
+                        >
+
+                            Read Full Article →
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            <% }) %>
+
+        </div>
+
+
+    <% } else { %>
+
+        <!-- Empty Category -->
+
+        <div class="text-center py-20">
+
+            <h2 class="text-2xl font-bold text-gray-700">
+                No articles yet
+            </h2>
+
+            <p class="text-gray-500 mt-2">
+                There are currently no articles in this category.
+            </p>
+
+            <a
+                href="/"
+                class="inline-block mt-6 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800"
+            >
+
+                Back to Home
+
+            </a>
+
+        </div>
+
+    <% } %>
+
+
+    <!-- Pagination -->
+
+    <% if (totalPages > 1) { %>
+
+        <div class="flex justify-center items-center gap-2 my-12">
+
+            <!-- Previous -->
+
+            <% if (currentPage > 1) { %>
+
+                <a
+                    href="/category/<%= categorySlug %>?page=<%= currentPage - 1 %>"
+                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                >
+
+                    Previous
+
+                </a>
+
+            <% } %>
+
+
+            <!-- Page Numbers -->
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+
+                <a
+                    href="/category/<%= categorySlug %>?page=<%= i %>"
+                    class="px-4 py-2 rounded-lg
+                    <%= currentPage === i
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 hover:bg-gray-300' %>"
+                >
+
+                    <%= i %>
+
+                </a>
+
+            <% } %>
+
+
+            <!-- Next -->
+
+            <% if (currentPage < totalPages) { %>
+
+                <a
+                    href="/category/<%= categorySlug %>?page=<%= currentPage + 1 %>"
+                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+                >
+
+                    Next
+
+                </a>
+
+            <% } %>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+<%- include("partials/footer") %>
+

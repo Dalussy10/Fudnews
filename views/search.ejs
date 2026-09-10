@@ -1,0 +1,53 @@
+<%- include("partials/header") %>
+
+    <div class="container mt-5">
+
+        <h2 class="mb-4">
+            Search Results for "<%= search %>"
+        </h2>
+
+        <% if(posts.length===0){ %>
+
+            <div class="alert alert-warning">
+                No posts found.
+            </div>
+
+            <% } %>
+
+                <% posts.forEach(post=> { %>
+
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h3>
+
+                                <a href="/post/<%= post.slug %>">
+
+                                    <%= post.title %>
+
+                                </a>
+
+                            </h3>
+
+                            <small>
+                                <%= post.author %>
+                                    |
+                                    <%= post.created_at.toDateString() %>
+                            </small>
+
+                            <p class="mt-2">
+
+                                <%= post.content.substring(0,180) %>...
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <% }) %>
+
+    </div>
+
+    <%- include("partials/footer") %>

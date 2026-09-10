@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FUDNEWS</title>
+
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    .breaking-ticker {
+        display: flex;
+        width: max-content;
+        animation: breaking-news-scroll 30s linear infinite;
+    }
+
+    .breaking-ticker:hover {
+        animation-play-state: paused;
+    }
+
+    @keyframes breaking-news-scroll {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(-50%);
+        }
+    }
+</style>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+
+    <!-- Ionicons -->
+    <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+
+    <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+
+</head>
+
+
+<body class="bg-slate-50 text-gray-900">
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
+
+    <div class="max-w-7xl mx-auto">
+
+
+        <!-- =================================================
+             TOP NAVBAR
+        ================================================== -->
+
+        <div class="flex items-center justify-between px-4 sm:px-6 py-4">
+
+
+            <!-- LOGO -->
+
+            <a
+                href="/"
+                class="group flex items-center gap-2"
+            >
+
+                <div
+                    class="
+                        w-10 h-10
+                        flex items-center justify-center
+                        rounded-xl
+                        bg-blue-600
+                        text-white
+                        shadow-md
+                        group-hover:bg-blue-700
+                        transition
+                    "
+                >
+
+                    <i class="fa-solid fa-newspaper"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h1
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            tracking-tight
+                            text-gray-900
+                            group-hover:text-blue-600
+                            transition
+                        "
+                    >
+                        FUDNEWS
+                    </h1>
+
+                    <p
+                        class="
+                            hidden
+                            sm:block
+                            text-[10px]
+                            uppercase
+                            tracking-[0.25em]
+                            text-gray-400
+                            font-semibold
+                        "
+                    >
+                        News • Information • Updates
+                    </p>
+
+                </div>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 DESKTOP SEARCH
+            ================================================== -->
+
+            <div class="hidden md:block flex-1 max-w-xl mx-8">
+
+                <div class="relative">
+
+                    <form
+                        action="/search"
+                        method="GET"
+                        class="flex gap-2"
+                    >
+
+                        <div class="relative flex-1">
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-magnifying-glass
+                                    absolute
+                                    left-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-gray-400
+                                "
+                            ></i>
+
+
+                            <input
+                                type="text"
+                                name="q"
+                                id="searchInput"
+                                placeholder="Search news..."
+                                autocomplete="off"
+
+                                class="
+                                    w-full
+                                    pl-11
+                                    pr-4
+                                    py-3
+                                    bg-gray-50
+                                    border
+                                    border-gray-200
+                                    rounded-full
+                                    text-sm
+                                    outline-none
+                                    focus:bg-white
+                                    focus:border-blue-500
+                                    focus:ring-4
+                                    focus:ring-blue-100
+                                    transition
+                                "
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+
+                            class="
+                                px-5
+                                py-3
+                                rounded-full
+                                bg-gray-900
+                                hover:bg-blue-600
+                                text-white
+                                text-sm
+                                font-semibold
+                                transition
+                                shadow-sm
+                            "
+                        >
+
+                            Search
+
+                        </button>
+
+                    </form>
+
+
+                    <!-- LIVE SEARCH RESULTS -->
+
+                    <div
+                        id="searchResults"
+
+                        class="
+                            hidden
+                            absolute
+                            left-0
+                            right-0
+                            top-full
+                            mt-2
+                            bg-white
+                            border
+                            border-gray-200
+                            rounded-2xl
+                            shadow-2xl
+                            overflow-hidden
+                            max-h-96
+                            overflow-y-auto
+                            z-[100]
+                        "
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACCOUNT + HAMBURGER
+            ================================================== -->
+
+            <div class="flex items-center gap-2">
+
+
+                <% if (currentUser) { %>
+
+
+                    <!-- ADMIN -->
+
+                    <a
+                        href="/admin"
+
+                        class="
+                            hidden
+                            sm:flex
+                            items-center
+                            gap-2
+                            px-4
+                            py-2.5
+                            rounded-full
+                            bg-gray-900
+                            hover:bg-blue-600
+                            text-white
+                            text-sm
+                            font-semibold
+                            transition
+                        "
+                    >
+
+                        <i class="fa-solid fa-gauge"></i>
+
+                        Admin
+
+                    </a>
+
+
+                    <!-- LOGOUT -->
+
+                    <a
+                        href="/admin/logout"
+
+                        class="
+                            hidden
+                            sm:flex
+                            items-center
+                            gap-2
+                            px-4
+                            py-2.5
+                            rounded-full
+                            bg-red-50
+                            hover:bg-red-600
+                            text-red-600
+                            hover:text-white
+                            text-sm
+                            font-semibold
+                            transition
+                        "
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        Logout
+
+                    </a>
+
+
+                <% } else { %>
+
+
+                    <!-- LOGIN -->
+
+                    <a
+                        href="/admin/login"
+
+                        class="
+                            hidden
+                            sm:flex
+                            items-center
+                            gap-2
+                            px-5
+                            py-2.5
+                            rounded-full
+                            bg-gray-900
+                            hover:bg-blue-600
+                            text-white
+                            text-sm
+                            font-semibold
+                            transition
+                        "
+                    >
+
+                        <i class="fa-solid fa-right-to-bracket"></i>
+
+                        Login
+
+                    </a>
+
+
+                <% } %>
+
+
+                <!-- HAMBURGER -->
+
+                <button
+                    id="menuToggle"
+                    type="button"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+
+                    class="
+                        md:hidden
+                        w-11
+                        h-11
+                        flex
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-gray-100
+                        hover:bg-gray-900
+                        text-gray-700
+                        hover:text-white
+                        transition
+                    "
+                >
+
+                    <i
+                        id="menuIcon"
+                        class="fa-solid fa-bars text-lg"
+                    ></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MOBILE SEARCH
+        ================================================== -->
+
+        <div class="md:hidden px-4 pb-4">
+
+            <form
+                action="/search"
+                method="GET"
+                class="flex gap-2"
+            >
+
+                <div class="relative flex-1">
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-magnifying-glass
+                            absolute
+                            left-4
+                            top-1/2
+                            -translate-y-1/2
+                            text-gray-400
+                        "
+                    ></i>
+
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Search news..."
+
+                        class="
+                            w-full
+                            pl-11
+                            pr-3
+                            py-3
+                            bg-gray-50
+                            border
+                            border-gray-200
+                            rounded-full
+                            text-sm
+                            outline-none
+                            focus:border-blue-500
+                            focus:ring-4
+                            focus:ring-blue-100
+                        "
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+
+                    class="
+                        w-12
+                        h-12
+                        flex
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-gray-900
+                        text-white
+                    "
+                >
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DESKTOP NAVIGATION
+        ================================================== -->
+
+        <nav class="hidden md:block border-t border-gray-100">
+
+            <ul
+                id="nav-links"
+
+                class="
+                    flex
+                    items-center
+                    justify-center
+                    flex-wrap
+                    gap-x-8
+                    gap-y-2
+                    px-4
+                    py-4
+                "
+            >
+
+                <li>
+
+                    <a
+                        href="/"
+
+                        class="
+                            group
+                            flex
+                            items-center
+                            gap-2
+                            text-sm
+                            font-semibold
+                            text-gray-600
+                            hover:text-blue-600
+                            transition
+                        "
+                    >
+
+                        <i class="fa-solid fa-house text-xs"></i>
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <% if (categories && categories.length > 0) { %>
+
+                    <% categories.forEach(category => { %>
+
+                        <li>
+
+                            <a
+                                href="/category/<%= category.slug %>"
+
+                                class="
+                                    text-sm
+                                    font-semibold
+                                    text-gray-600
+                                    hover:text-blue-600
+                                    transition
+                                "
+                            >
+
+                                <%= category.name %>
+
+                            </a>
+
+                        </li>
+
+                    <% }) %>
+
+                <% } %>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =================================================
+             MOBILE MENU
+        ================================================== -->
+
+        <div
+            id="mobileMenu"
+
+            class="
+                hidden
+                md:hidden
+                border-t
+                border-gray-200
+                bg-white
+            "
+        >
+
+            <nav class="px-4 py-4">
+
+                <ul class="space-y-1">
+
+
+                    <li>
+
+                        <a
+                            href="/"
+
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                rounded-xl
+                                text-gray-700
+                                hover:bg-blue-50
+                                hover:text-blue-600
+                                font-semibold
+                                transition
+                            "
+                        >
+
+                            <i class="fa-solid fa-house w-5"></i>
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+
+                    <% if (categories && categories.length > 0) { %>
+
+                        <% categories.forEach(category => { %>
+
+                            <li>
+
+                                <a
+                                    href="/category/<%= category.slug %>"
+
+                                    class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        px-4
+                                        py-3
+                                        rounded-xl
+                                        text-gray-700
+                                        hover:bg-blue-50
+                                        hover:text-blue-600
+                                        font-semibold
+                                        transition
+                                    "
+                                >
+
+                                    <i
+                                        class="
+                                            fa-solid
+                                            fa-folder
+                                            w-5
+                                            text-gray-400
+                                        "
+                                    ></i>
+
+                                    <%= category.name %>
+
+                                </a>
+
+                            </li>
+
+                        <% }) %>
+
+                    <% } %>
+
+
+                    <!-- MOBILE ACCOUNT -->
+
+                    <li class="pt-3 mt-3 border-t border-gray-100">
+
+                        <% if (currentUser) { %>
+
+                            <a
+                                href="/admin"
+
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    px-4
+                                    py-3
+                                    rounded-xl
+                                    bg-gray-900
+                                    text-white
+                                    font-semibold
+                                "
+                            >
+
+                                <i class="fa-solid fa-gauge w-5"></i>
+
+                                Admin Panel
+
+                            </a>
+
+
+                            <a
+                                href="/admin/logout"
+
+                                class="
+                                    mt-2
+                                    flex
+                                    items-center
+                                    gap-3
+                                    px-4
+                                    py-3
+                                    rounded-xl
+                                    text-red-600
+                                    hover:bg-red-50
+                                    font-semibold
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-right-from-bracket
+                                        w-5
+                                    "
+                                ></i>
+
+                                Logout
+
+                            </a>
+
+
+                        <% } else { %>
+
+
+                            <a
+                                href="/admin/login"
+
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    px-4
+                                    py-3
+                                    rounded-xl
+                                    bg-gray-900
+                                    text-white
+                                    font-semibold
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-right-to-bracket
+                                        w-5
+                                    "
+                                ></i>
+
+                                Login
+
+                            </a>
+
+
+                        <% } %>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HEADER JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const menuToggle =
+            document.getElementById("menuToggle");
+
+        const mobileMenu =
+            document.getElementById("mobileMenu");
+
+        const menuIcon =
+            document.getElementById("menuIcon");
+
+
+        if (menuToggle && mobileMenu) {
+
+            menuToggle.addEventListener("click", function () {
+
+                const isOpen =
+                    !mobileMenu.classList.contains("hidden");
+
+
+                if (isOpen) {
+
+                    mobileMenu.classList.add("hidden");
+
+                    menuIcon.classList.remove("fa-xmark");
+
+                    menuIcon.classList.add("fa-bars");
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                } else {
+
+                    mobileMenu.classList.remove("hidden");
+
+                    menuIcon.classList.remove("fa-bars");
+
+                    menuIcon.classList.add("fa-xmark");
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                }
+
+            });
+
+
+            /* Close menu when a link is clicked */
+
+            mobileMenu
+                .querySelectorAll("a")
+                .forEach(function (link) {
+
+                    link.addEventListener("click", function () {
+
+                        mobileMenu.classList.add("hidden");
+
+                        menuIcon.classList.remove("fa-xmark");
+
+                        menuIcon.classList.add("fa-bars");
+
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    });
+
+                });
+
+        }
+
+
+
+        /* =====================================================
+           LIVE SEARCH
+        ===================================================== */
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const searchResults =
+            document.getElementById("searchResults");
+
+
+        if (searchInput && searchResults) {
+
+            searchInput.addEventListener(
+                "input",
+                async function () {
+
+                    const query =
+                        this.value.trim();
+
+
+                    if (query.length < 2) {
+
+                        searchResults.classList.add("hidden");
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/search?q=" +
+                                encodeURIComponent(query),
+                                {
+                                    headers: {
+                                        Accept:
+                                            "application/json"
+                                    }
+                                }
+                            );
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Search failed"
+                            );
+
+                        }
+
+
+                        const posts =
+                            await response.json();
+
+
+                        if (!posts.length) {
+
+                            searchResults.innerHTML = `
+
+                                <div class="p-5 text-sm text-gray-500">
+
+                                    No results found for
+                                    "${query}"
+
+                                </div>
+
+                            `;
+
+                        } else {
+
+                            searchResults.innerHTML =
+                                posts.map(post => `
+
+                                    <a
+                                        href="/post/${post.slug}"
+
+                                        class="
+                                            flex
+                                            gap-3
+                                            p-4
+                                            border-b
+                                            border-gray-100
+                                            hover:bg-gray-50
+                                            transition
+                                        "
+                                    >
+
+                                        ${
+                                            post.image
+                                            ?
+                                            `
+                                                <img
+                                                    src="${post.image}"
+                                                    alt="${post.title}"
+                                                    class="
+                                                        w-16
+                                                        h-16
+                                                        object-cover
+                                                        rounded-lg
+                                                        flex-shrink-0
+                                                    "
+                                                >
+                                            `
+                                            :
+                                            ""
+                                        }
+
+
+                                        <div class="min-w-0">
+
+                                            <p
+                                                class="
+                                                    font-semibold
+                                                    text-sm
+                                                    text-gray-800
+                                                "
+                                            >
+
+                                                ${post.title}
+
+                                            </p>
+
+
+                                            <p
+                                                class="
+                                                    mt-1
+                                                    text-xs
+                                                    text-gray-500
+                                                    line-clamp-2
+                                                "
+                                            >
+
+                                                ${
+                                                    post.content
+                                                    ?
+                                                    post.content
+                                                        .replace(
+                                                            /<[^>]*>/g,
+                                                            ""
+                                                        )
+                                                        .substring(
+                                                            0,
+                                                            100
+                                                        ) + "..."
+                                                    :
+                                                    ""
+                                                }
+
+                                            </p>
+
+                                        </div>
+
+                                    </a>
+
+                                `).join("");
+
+                        }
+
+
+                        searchResults.classList.remove(
+                            "hidden"
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Search error:",
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+
+            document.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        !event.target.closest(
+                            "#searchInput"
+                        ) &&
+                        !event.target.closest(
+                            "#searchResults"
+                        )
+                    ) {
+
+                        searchResults.classList.add(
+                            "hidden"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+    });
+
+</script>

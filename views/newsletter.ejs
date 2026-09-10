@@ -1,0 +1,35 @@
+<%- include('partials/header')-%>
+    <div class="middle-side">
+        <div class="middle-content">
+            <h1 class="h1 middle title">
+                Newsletter
+            </h1>
+
+        </div>
+        <% posts.forEach(function(post) { %>
+            <% if (post.category_name==="newsletter" ) { %>
+                <div class="latest">
+                    <h2>
+                        <%= post.title %>
+                    </h2>
+                    <% if (post.image) { %>
+                        <img src="<%= post.image %>" alt="Post Image" class="latest-img">
+                        <% } %>
+
+                            <p class="more-p">
+                                <%= post.source %>
+                            </p>
+                            <p class="more-p">
+                                <%= post.content %>
+                            </p>
+                            <p>
+                                <%= post.date %>
+                            </p>
+
+                </div>
+                <hr>
+                <% } %>
+                    <% }) %>
+
+    </div>
+    <%- include('partials/footer'); -%>

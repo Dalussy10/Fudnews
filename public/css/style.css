@@ -1,0 +1,27 @@
+
+@import "tailwindcss";
+
+/* ================================
+   Breaking News Ticker
+================================ */
+
+.breaking-ticker {
+    display: flex;
+    width: max-content;
+    animation: breaking-news-scroll 30s linear infinite;
+}
+
+/* Pause when the user hovers over the ticker */
+.breaking-ticker:hover {
+    animation-play-state: paused;
+}
+
+@keyframes breaking-news-scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}

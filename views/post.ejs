@@ -1,0 +1,267 @@
+<%- include('partials/header'); -%>
+
+    <main class="bg-gray-50">
+
+        <!-- ARTICLE -->
+        <article class="max-w-5xl mx-auto px-4 md:px-6 py-8">
+
+            <!-- Breadcrumb -->
+            <div class="text-sm text-gray-500 mb-6">
+
+                <a href="/" class="hover:text-blue-600">
+                    Home
+                </a>
+
+                <span class="mx-2">/</span>
+
+                <span>
+                    <%= post.category_name || "General" %>
+                </span>
+
+            </div>
+
+
+            <!-- Category -->
+            <div class="mb-4">
+
+                <span class="inline-block bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full">
+
+                    <%= post.category_name || "General" %>
+
+                </span>
+
+
+                <% if (post.featured) { %>
+
+                    <span
+                        class="inline-block bg-yellow-500 text-white text-sm font-semibold px-3 py-1 rounded-full ml-2">
+
+                        ⭐ Featured
+
+                    </span>
+
+                    <% } %>
+
+
+                        <% if (post.breaking) { %>
+
+                            <span
+                                class="inline-block bg-red-600 text-white text-sm font-semibold px-3 py-1 rounded-full ml-2">
+
+                                🚨 Breaking News
+
+                            </span>
+
+                            <% } %>
+
+            </div>
+
+
+            <!-- TITLE -->
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+
+                <%= post.title %>
+
+            </h1>
+
+
+            <!-- META -->
+            <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-8">
+
+                <span>
+
+                    👤
+                    <%= post.author || "FundNews" %>
+
+                </span>
+
+
+                <span>
+                    •
+                </span>
+
+
+                <span>
+
+                    📅
+                    <%= new Date(post.created_at).toDateString() %>
+
+                </span>
+
+
+                <span>
+                    •
+                </span>
+
+
+                <span>
+
+                    👁
+                    <%= post.views || 0 %> views
+
+                </span>
+
+            </div>
+
+
+            <!-- FEATURED IMAGE -->
+            <% if (post.image) { %>
+
+                <div class="w-full mb-8">
+
+                    <img src="<%= post.image %>" alt="<%= post.title %>"
+                        class="w-full max-h-[550px] object-cover rounded-2xl shadow">
+
+                </div>
+
+                <% } %>
+
+
+                    <!-- ARTICLE CONTENT -->
+                    <div class="bg-white rounded-2xl shadow-sm p-6 md:p-10">
+
+                        <div class="prose prose-lg max-w-none text-gray-800 leading-8">
+
+                            <%- post.content %>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SHARE -->
+                    <div class="mt-8 flex flex-wrap items-center gap-3">
+
+                        <span class="font-semibold text-gray-700">
+                            Share this article:
+                        </span>
+
+
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent('http://localhost:3000/post/' + post.slug) %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Facebook
+                        </a>
+
+
+                        <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent('http://localhost:3000/post/' + post.slug) %>&text=<%= encodeURIComponent(post.title) %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+                            X
+                        </a>
+
+
+                        <a href="https://wa.me/?text=<%= encodeURIComponent(post.title + ' http://localhost:3000/post/' + post.slug) %>"
+                            target="_blank" rel="noopener noreferrer"
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            WhatsApp
+                        </a>
+
+                    </div>
+
+
+                    <!-- COMMENTS -->
+                    <section class="mt-12">
+
+                        <h2 class="text-2xl font-bold mb-6">
+                            Comments
+                        </h2>
+
+
+                        <% if (comments && comments.length> 0) { %>
+
+                            <div class="space-y-5">
+
+                                <% comments.forEach(comment=> { %>
+
+                                    <div class="bg-white p-5 rounded-xl shadow-sm">
+
+                                        <div class="font-semibold text-gray-900">
+
+                                            <%= comment.fullname %>
+
+                                        </div>
+
+
+                                        <p class="text-gray-700 mt-2">
+
+                                            <%= comment.comment %>
+
+                                        </p>
+
+                                    </div>
+
+                                    <% }) %>
+
+                            </div>
+
+                            <% } else { %>
+
+                                <p class="text-gray-500">
+
+                                    No comments yet. Be the first to comment.
+
+                                </p>
+
+                                <% } %>
+
+
+                                    <!-- COMMENT FORM -->
+                                    <div class="mt-8 bg-white p-6 rounded-xl shadow-sm">
+
+                                        <h3 class="text-xl font-semibold mb-4">
+
+                                            Leave a Comment
+
+                                        </h3>
+
+
+                                        <form action="/post/<%= post.id %>/comment" method="POST" class="space-y-4">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <form action="/post/<%= post.id %>/comment" method="POST" class="mt-6">
+
+                                                <div class="mb-4">
+
+                                                    <label for="fullname" class="block font-medium mb-2">
+                                                        Your Name
+                                                    </label>
+
+                                                    <input type="text" id="fullname" name="fullname" required
+                                                        maxlength="100" placeholder="Enter your name"
+                                                        class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                                                </div>
+
+
+                                                <div class="mb-4">
+
+                                                    <label for="comment" class="block font-medium mb-2">
+                                                        Your Comment
+                                                    </label>
+
+                                                    <textarea id="comment" name="comment" required maxlength="1000"
+                                                        rows="5" placeholder="Write your comment..."
+                                                        class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+                                                </div>
+
+
+                                                <button type="submit"
+                                                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
+                                                    Post Comment
+                                                </button>
+
+                                            </form>
+
+                                        </form>
+
+                                    </div>
+
+                    </section>
+
+        </article>
+
+    </main>
+
+
+    <%- include('partials/footer'); -%>
