@@ -87,9 +87,10 @@ app.use(
 // SESSION
 // ==========================================
 
+app.set("trust proxy", 1);
+
 app.use(
     session({
-
         secret: process.env.SESSION_SECRET,
 
         resave: false,
@@ -99,21 +100,16 @@ app.use(
         name: "fudnews.sid",
 
         cookie: {
-
             httpOnly: true,
 
-            secure:
-                process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production",
 
-            sameSite: "lax", 
+            sameSite: "lax",
 
             maxAge: 1000 * 60 * 60 * 8
-
         }
-
     })
 );
-
 // ==========================================
 // FLASH MESSAGES
 // ==========================================
@@ -245,14 +241,11 @@ pool.query("SELECT NOW()")
 // SERVER
 // ==========================================
 
-const server = app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
 
-    console.log(
-        "app is running at port 3000"
-    );
-
+const server = app.listen(PORT, () => {
+    console.log(`App is running on port ${PORT}`);
 });
-
 
 // ==========================================
 // GRACEFUL SHUTDOWN
