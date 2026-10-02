@@ -2,6 +2,7 @@
 const postService = require("../services/postService");
 const categoryService = require("../services/categoryService");
 const commentService = require("../services/commentService");
+const { uploadToCloudinary } = require("../services/cloudinaryService");
 
 const sanitizeHtml = require("sanitize-html");
 const {
@@ -204,55 +205,44 @@ exports.editPage = async (req, res) => {
 // ==========================================
 
 exports.createPost = async (req, res) => {
-
     try {
+        let imagePath = null;
 
-        const imagePath =
-            req.file
-                ? `/uploads/${req.file.filename}`
-                : null;
+        if (req.file) {
+            const result = await uploadToCloudinary(
+                req.file.buffer,
+                "fudnews/posts"
+            );
 
+            imagePath = result.secure_url;
+        }
 
         await postService.createPost(
-
             req.body,
-
             imagePath,
-
             req.session.user.id
-
         );
-
 
         // ==========================================
         // AUDIT LOG
         // ==========================================
 
         await createAuditLog({
+            userId: req.session.user.id,
 
-            userId:
-                req.session.user.id,
-
-            action:
-                "POST_CREATED",
+            action: "POST_CREATED",
 
             description:
                 `Post "${req.body.title}" was created.`,
 
-            ipAddress:
-                req.ip,
+            ipAddress: req.ip,
 
-            userAgent:
-                req.get("user-agent")
-
+            userAgent: req.get("user-agent")
         });
-
 
         res.redirect("/");
 
-
     } catch (err) {
-
         console.error(
             "Create post error:",
             err
@@ -261,23 +251,25 @@ exports.createPost = async (req, res) => {
         res.status(500).send(
             err.message
         );
-
     }
-
 };
+
 
 // ==========================================
 // UPDATE POST
 // ==========================================
-
 exports.updatePost = async (req, res) => {
-
     try {
+        let imagePath = null;
 
-        const imagePath = req.file
-            ? `/uploads/${req.file.filename}`
-            : null;
+        if (req.file) {
+            const result = await uploadToCloudinary(
+                req.file.buffer,
+                "fudnews/posts"
+            );
 
+            imagePath = result.secure_url;
+        }
 
         const cleanContent = sanitizeHtml(
             req.body.content,
@@ -297,9 +289,7 @@ exports.updatePost = async (req, res) => {
             }
         );
 
-
         req.body.content = cleanContent;
-
 
         await postService.updatePost(
             req.params.id,
@@ -307,13 +297,11 @@ exports.updatePost = async (req, res) => {
             imagePath
         );
 
-
         // ==========================================
         // AUDIT LOG
         // ==========================================
 
         await createAuditLog({
-
             userId:
                 req.session.user?.id || null,
 
@@ -328,15 +316,11 @@ exports.updatePost = async (req, res) => {
 
             userAgent:
                 req.get("user-agent")
-
         });
-
 
         res.redirect("/admin/posts");
 
-
     } catch (err) {
-
         console.error(
             "UPDATE POST ERROR:",
             err
@@ -345,9 +329,7 @@ exports.updatePost = async (req, res) => {
         res.status(500).send(
             "Unable to update post."
         );
-
     }
-
 };
 
 // ==========================================

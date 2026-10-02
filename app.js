@@ -22,7 +22,7 @@ const {
     csrfSynchronisedProtection,
     generateToken
 } = require("./middleware/csrf");
-
+ 
 
 const categoryService = require("./services/categoryService");
 const errorHandler = require("./middleware/errorHandler");
